@@ -1,64 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Shower Presentation Engine</title>
+    <title>UnicodeDecodeError: can't decode byte</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="node_modules/@shower/ribbon/styles/styles.css">
     <style>
         .shower {
             --slide-ratio: calc(16 / 9);
+            font-family: sans-serif;
         }
+        pre {
+            font-family: 'PT Mono', monospace;
+        }
+        .slide h2 {
+            color: black;
+            font-weight: normal;
+            font-family: sans-serif;
+            /*line-height: 1.2;*/
+        }
+            .slide::after {
+                top: -15px;
+                padding-top: 30px;
+            }
+        .region {
+            line-height: 1;
+        }
+        .gap {
+            text-align: center;
+        }
+            .gap h2 {
+                font-size: 60px;
+                margin-top: 120px;
+                margin-right: 30px;
+                line-height: 1.4;
+            }
     </style>
 </head>
 <body class="shower list">
 
     <header class="caption">
-        <h1>Shower Presentation Engine</h1>
-        <p>Yours Truly, Famous Inc.</p>
+        <h1>UnicodeDecodeError: can't decode byte</h1>
+        <p>Александр Карпинский, Uploadcare Inc.</p>
     </header>
 
     <section class="slide" id="cover">
-        <h2>Shower Presentation Engine</h2>
-        <p>Brought to you by <a href="http://pepelsbey.net">Vadim Makeev</a></p>
-        <figure>
-            <img class="cover" src="pictures/cover.jpg" alt="Hands on the orange typewriter in a park">
-            <figcaption class="copyright right white">
-                <a href="http://fiftyfootshadows.net/">© John Carey</a>
-            </figcaption>
-        </figure>
+        <img class="logo" src="pictures/Uploadcare.svg" alt="uploadcare">
+        <h2>UnicodeDecodeError:<br>can't decode byte</h2>
+        <p>Александр Карпинский, 2019</p>
         <style>
+            #cover:after {
+                display: none;
+            }
+            #cover img {
+                position: relative;
+                left: -40px;
+                top: -10px;
+                width: 300px;
+            }
             #cover h2 {
-                margin: 30px 0 0;
-                color: white;
+                font-weight: bold;
+                margin: 50px 0 0;
                 text-align: center;
-                font-size: 70px;
+                font-size: 60px;
             }
 
             #cover p {
-                margin: 10px 0 0;
+                margin: 100px 0 0;
                 text-align: center;
-                color: white;
-                font-style: italic;
-                font-size: 20px;
-            }
-
-            #cover p a {
-                color: white;
             }
         </style>
     </section>
 
     <section class="slide">
-        <h2>Shower key features</h2>
-        <ol>
-            <li>Built on HTML, CSS and JavaScript</li>
-            <li>Works in all modern browsers</li>
-            <li>Themes are separated from engine</li>
-            <li>Fully keyboard accessible</li>
-            <li>Printable to PDF</li>
-        </ol>
-        <p class="note">Shower ['ʃəuə] noun. A person or thing that shows.</p>
+        <h2>Актуальность темы</h2>
+        <ul>
+            <li>Всегда актуальная тема</li>
+            <li class="next">1 января 2020 года — окончание поддержки Python 2.7</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>План на доклад</h2>
+        <ul>
+            <li>История появления Юникода и его кодировок</li>
+            <li>Работа со строками в Python</li>
+            <li>Портирование кода на Python 3</li>
+            <li>Внутреннее представление строк в языках</li>
+        </ul>
+    </section>
+    
+    <section class="slide gap">
+        <h2>История появления Юникода</h2>
+    </section>
+
+    <section class="slide">
+        <h2>Однобайтовые кодировки</h2>
+        <ul>
+            <li>Для каждого языка появилась своя, иногда несколько</li>
+            <li>Не все на самом деле были однобайтовые</li>
+        </ul>
+        <div class="next">
+            Минусы:
+            <ul>
+                <li>Надо передавать данные между разными системами</li>
+                <li class="next">Это не поможет отобразить символы разных алфавитов</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Юникод — не кодировка!</h2>
+        <p class="next">Это таблица (база данных) символов,
+        где каждый символ обладает строго заданной функцией и набором свойств.</p>
+    </section>
+
+    <section class="slide" id="codepoints">
+        <h2>Что в этой таблице?</h2>
+        <a href="https://codepoints.net/U+0430">https://codepoints.net/U+0430</a><br>
+        <img src="pictures/codepoint1.png" width="200px">
+        <img src="pictures/codepoint2.png" width="192px">
+        <img src="pictures/codepoint3.png" width="197px">
+        <img src="pictures/codepoint4.png" width="169px">
+        <style>
+            #codepoints img {
+                vertical-align: top;
+            }
+        </style>
+    </section>
+
+    <section class="slide">
+        <h2>Несколько бесполезных фактов</h2>
+        <ul>
+            <li>Версия 1.0 вышла в октябре 1991 и содержала 7 161 символов</li>
+            <li>Изначально вместимость была 65 536 символов (16 бит)</li>
+            <li>Сейчас таблица разбита на 17 плоскостей по 65 536 символов</li>
+            <li>Максимальная вместимость — 1 114 111 символов</li>
+            <li>Версия 12.1 содержит 137 994 символов из 150 письменностей</li>
+            <li>Имеет иерархическую структуру блоков, не все выделенные символы идут подряд</li>
+        </ul>
+    </section>
+
+    <section class="slide gap">
+        <h2 style="margin-top: 100px">Таблица это хорошо, но нам по-прежнему ножно передавать информацию</h2>
+    </section>
+
+    <section class="slide">
+        <h2>Что такое кодировка?</h2>
+        <p>Кодировка — это способ представить строки, состояшие из символов Юникода,
+        в виде байтов.</p>
+
+        <p class="next">Актуальные кодировки: <b>UTF-8</b>, <b>UTF-16</b> и <b>UTF-32</b>.</p>
+        <p class="next">Устаревшие: <b>UTF-7</b>, <b>UCS-2</b>, <b>UTF-24</b>.</p>
+    </section>
+
+    <section class="slide gap">
+        <h2>Работа со строками в Python</h2>
+    </section>
+
+    <section class="slide">
+        <h2>Строки в Python</h2>
+        <p><code>str</code> в Python 3 или <code>unicode</code> в Python 2.</p>
+        <ul>
+            <li class="next">Последовательность Юникод-символов</li>
+            <li class="next">Внутреннее представление скрыто</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Строки в Python</h2>
+        <pre>
+            <code>'Питон'[0]</code>
+            <span>'П'</span>
+            <div class="next">
+                <code>ord('Питон'[0])</code>
+                <span>1055</span>
+            </div>
+            <div class="next">
+                <code>'Питон' + '3'</code>
+                <span>'Питон3'</span>
+            </div>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <h2>Строки не байты</h2>
+        <pre>
+            <code>import base64</code>
+            <code>base64.b64encode('Python')</code>
+            TypeError: a bytes-like object is required, not 'str'
+        </pre>
+    </section>
+
+    <section class="slide">
+        <h2>Кодировки спешат на помошь</h2>
+        <pre>
+            <code>base64.b64encode('Python'.encode('utf-8'))</code>
+            b'UHl0aG9u'
+            <div class="next">
+                <code>'Python'.encode('utf-8')</code>
+                <span>b'Python'</span>
+            </div>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <h2>Зачем делать лишнюю работу?</h2>
+        <pre>
+            <div class="next">
+                <code>ord('Питон'[0])</code>
+                <span>1055</span>
+            </div>
+            <div class="next">
+                <code>'Питон'.encode('utf-8')</code>
+                <span>b'\xd0\x9f\xd0\xb8\xd1\x82\xd0\xbe\xd0\xbd'</span>
+            </div>
+            <div class="next">
+                <code>base64.b64encode('Питон'.encode('utf-8'))</code>
+                <span>b'0J/QuNGC0L7QvQ=='</span>
+            </div>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <h2>Ключ к понимаюнию</h2>
+        <p>Все API работают только с одним типом!</p>
+        <table class="next">
+        <tr>
+            <th scope="col"><code>str</code></th>
+            <th scope="col"><code>bytes</code></th>
+        </tr>
+        <tr>
+            <td valign="top">
+                .format()<br>
+                json<br>
+                шаблоны
+            </td>
+            <td valign="top">
+                base64.b64encode()<br>
+                socket<br>
+                криптография
+            </td>
+        </tr>
+        </table>
+    </section>
+
+    <section class="slide">
+        <h2>Исключения?</h2>
+        <ul>
+            <li class="next">
+                <code>base64.b64decode()</code> — для упрощения
+                <ul class="next"><li>Но <code>bytes.fromhex()</code> уже без поблажек</li></ul>
+            </li>
+            <li class="next"><code>re</code> — фабрика, тип зависит от аргумента</li>
+            <li class="next"><code>open()</code> — фабрика, фабрика, тип зависит от флага<br>
+            И так далее…</li>
+        </ul>
     </section>
 
     <section class="slide">
@@ -196,10 +393,6 @@
             }
         </style>
     </section>
-
-    <footer class="badge">
-        <a href="https://github.com/shower/shower">Fork me on GitHub</a>
-    </footer>
 
     <div class="progress"></div>
 
