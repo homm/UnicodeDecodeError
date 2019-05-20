@@ -12,6 +12,7 @@
         }
         pre {
             font-family: 'PT Mono', monospace;
+            margin-bottom: .5em;
         }
         .slide h2 {
             color: black;
@@ -35,6 +36,9 @@
                 margin-right: 30px;
                 line-height: 1.4;
             }
+        .slide code.red {
+            background: rgba(255, 0, 0, 0.25);
+        }
     </style>
 </head>
 <body class="shower list">
@@ -116,7 +120,7 @@
     </section>
 
     <section class="slide" id="codepoints">
-        <h2>Что в этой таблице?</h2>
+        <h2>Что в этой таблице</h2>
         <a href="https://codepoints.net/U+0430">https://codepoints.net/U+0430</a><br>
         <img src="pictures/codepoint1.png" width="200px">
         <img src="pictures/codepoint2.png" width="192px">
@@ -129,16 +133,25 @@
         </style>
     </section>
 
-    <section class="slide">
+    <section class="slide" id="useless-facts">
         <h2>Несколько бесполезных фактов</h2>
         <ul>
             <li>Версия 1.0 вышла в октябре 1991 и содержала 7 161 символов</li>
             <li>Изначально вместимость была 65 536 символов (16 бит)</li>
+        </ul>
+        <ul class="next">
             <li>Сейчас таблица разбита на 17 плоскостей по 65 536 символов</li>
             <li>Максимальная вместимость — 1 114 111 символов</li>
+        </ul>
+        <ul class="next">
             <li>Версия 12.1 содержит 137 994 символов из 150 письменностей</li>
             <li>Имеет иерархическую структуру блоков, не все выделенные символы идут подряд</li>
         </ul>
+        <style>
+            #useless-facts ul {
+                margin-bottom: 0;
+            }
+        </style>
     </section>
 
     <section class="slide gap">
@@ -146,12 +159,63 @@
     </section>
 
     <section class="slide">
-        <h2>Что такое кодировка?</h2>
+        <h2>Что такое кодировка</h2>
         <p>Кодировка — это способ представить строки, состояшие из символов Юникода,
         в виде байтов.</p>
 
         <p class="next">Актуальные кодировки: <b>UTF-8</b>, <b>UTF-16</b> и <b>UTF-32</b>.</p>
         <p class="next">Устаревшие: <b>UTF-7</b>, <b>UCS-2</b>, <b>UTF-24</b>.</p>
+    </section>
+
+    <section class="slide">
+        <h2>Unicode Transformation Formats</h2>
+        <table class="utf">
+        <tr>
+            <th scope="col"></th>
+            <th>UTF-8</th>
+            <th>UTF-16</th>
+            <th>UTF-32</th>
+        </tr>
+        <tr>
+            <td>ASCII (00-007F)</td>
+            <td class="green">1</td>
+            <td class="green">2</td>
+            <td class="red">4</td>
+        </tr>
+        <tr>
+            <td>000080-0007FF</td>
+            <td class="green">2</td>
+            <td class="green">2</td>
+            <td class="red">4</td>
+        </tr>
+        <tr>
+            <td>000800-00FFFF</td>
+            <td class="yellow">3</td>
+            <td class="green">2</td>
+            <td class="red">4</td>
+        </tr>
+        <tr class="other-planes">
+            <td>010000-10FFFF</td>
+            <td class="red">4</td>
+            <td class="red">4</td>
+            <td class="red">4</td>
+        </tr>
+        </table>
+        <style>
+            .utf .other-planes > td {
+                background: rgba(0, 127, 255, .2);
+            }
+            .utf td:not(:first-child) {
+                padding-left: 30px;
+                font-weight: bold;
+            }
+            .utf tr:not(:first-child) > * {
+                background-image: none;
+            }
+            .utf .green {color: #38761d}
+            .utf .yellow {color: #f1c232}
+            .utf .red {color: #ff0000}
+        </style>
     </section>
 
     <section class="slide gap">
@@ -205,7 +269,7 @@
     </section>
 
     <section class="slide">
-        <h2>Зачем делать лишнюю работу?</h2>
+        <h2>Зачем делать лишнюю работу?!</h2>
         <pre>
             <div class="next">
                 <code>ord('Питон'[0])</code>
@@ -253,145 +317,136 @@
                 <ul class="next"><li>Но <code>bytes.fromhex()</code> уже без поблажек</li></ul>
             </li>
             <li class="next"><code>re</code> — фабрика, тип зависит от аргумента</li>
-            <li class="next"><code>open()</code> — фабрика, фабрика, тип зависит от флага<br>
+            <li class="next"><code>open()</code> — фабрика, тип зависит от флага<br>
             И так далее…</li>
         </ul>
     </section>
 
     <section class="slide">
-        <h2>Plain text on your slides</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur <a href="#4">adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <em>quis nostrud</em> exercitation ullamco laboris <strong>nisi ut aliquip</strong> ex ea commodo consequat. Duis aute irure <i>dolor</i> in reprehenderit in voluptate velit esse cillum <b>dolore</b> eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in <code>&lt;culpa&gt;</code> qui officia deserunt mollit anim id est laborum.</p>
+        <h2>Что поменялось с 2.7</h2>
+        <p>Очевидные известные вещи:</p>
+        <ul>
+            <li>Переименование типов <code>uncode</code> → <code>str</code>, <code>str</code> → <code>bytes</code></li>
+            <li>Строковые литералы по-умолчанию теперь Юникодовые</li>
+        </ul>
     </section>
 
     <section class="slide">
-        <h2>Two columns if you like</h2>
-        <div class="columns two">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
+        <h2>Что поменялось с 2.7</h2>
+        <pre>
+            <code>import base64</code>
+            <code>base64.b64encode(u'Python')</code>
+            'UHl0aG9u'
+            <div class="next">
+                <code>base64.b64encode(u'Питон')</code>
+                <span>UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-4: ordinal not in range(128)</span>
+            </div>
+        </pre>
+    </section>
+
+    <section class="slide gap">
+        <h2>Портирование кода на Python 3</h2>
+    </section>
+
+    <section class="slide">
+        <h2>Делайте универсальный код</h2>
+        <p>Немного сложнее, но есть возможность сделать undo в любой момент.
+            Не надо поддерживать две версии кода и мержить изменения.</p>
+        <p class="next">Чаще всего достаточно адаптировать под Python 3.</p>
+    </section>
+
+    <section class="slide">
+        <h2>Делайте универсальный код</h2>
+        <ul>
+            <li><code>from __future__ import unicode_literals</code></li>
+            <li class="next">Никогда не приводите к другому типу через конструктор:
+                <ul>
+                <pre>
+                    <code>str(b'Python')</code>
+                    <span>"b'Python'"</span>
+                    <span class="next">
+                        <code>bytes('Питон', encoding='utf-8')</code>
+                        <span>b'\xd0\x9f\xd0\xb8\xd1\x82\xd0\xbe\xd0\xbd'</span>
+                    </span>
+                </pre>
+                </ul>
+            </li>
+            <li class="next">Привыкайте использовать <code>.encode()</code> и <code>.decode()</code></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Делайте универсальный код</h2>
+        <p>Почти всегда можно обойтись без ветвлений типа <code>if six.PY3</code>.</p>
+        <p class="next">Пока нашел исключение:<br>
+            Функция <code>type("ClassName", …, …)</code>:<br>
+            в Python 2 принимает только <code>str</code>,<br>
+            в Python 3 принимает только <code>str</code>.</p>
+    </section>
+
+    <section class="slide">
+        <h2>На что ещё обратить внимание</h2>
+        <ul>
+            <li>В Python 3 все API разделены по типам
+                <ul class="next"><li>По крайней мере в стандартной бибилиотеке</li></ul>
+            </li>
+            <li class="next">Нельзя писать не ASCII в байтовых литералах: <code class="red">b"Питон"</code></li>
+            <li class="next">
+                Элемент байтовой строки — число, а не строка:
+                <pre>
+                    <code>>> b'Python'[0]</code>
+                    80
+                </pre>
+            </li>
+        </ul>
+    </section>
+
+    <section class="slide gap">
+        <h2>Внутреннее представление строк в языках</h2>
+    </section>
+
+    <section class="slide">
+        <h2>В JavaScript</h2>
+        <p>Строки строго в UCS-2, прописано в стандарте.</p>
+        <p class="next">UCS-2 это почти UTF-16, но с фиксированной шириной символа.</p>
+        <p class="next">В UCS-2 могут быть суррогатные пары.</p>
+    </section>
+
+    <section class="slide">
+        <h2>В CPython 2</h2>
+        <p>Есть версии интерпретаторов с UCS-2 и UCS-4.
+            UCS-2 компактнее в два раза, но есть суррогатные пары.</p>
+        <div class="next">
+            <p>Доли рынка неизвестна. Определяется в рантайме:</p>
+            <pre>
+                <code>import sys</code>
+                <code>sys.maxunicode</code>
+                1114111 (0x10FFFF)
+            </pre>
         </div>
     </section>
 
     <section class="slide">
-        <h2>All kind of lists</h2>
-        <ol>
-            <li>Simple lists are marked with bullets</li>
-            <li>Ordered lists begin with a number</li>
-            <li>You can even nest lists one inside another
-                <ul>
-                    <li>Or mix their types</li>
-                    <li>But do not go too far</li>
-                    <li>Otherwise audience will be bored</li>
-                </ul>
-            </li>
-            <li>Look, seven rows exactly!</li>
-        </ol>
+        <h2>В CPython 3.3 и далее</h2>
+        <p>Для приложения выглядит как UCS-4.</p>
+        <p class="next">В зависимости от содержимого всей строки
+            каждый символ может занимать 1, 2 или 4 байта.</p>
     </section>
 
     <section class="slide">
-        <h2>Serious citations</h2>
-        <figure>
-            <blockquote>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
-            </blockquote>
-            <figcaption>Marcus Tullius Cicero</figcaption>
-        </figure>
+        <h2>PyPy 7.1</h2>
+        <p>Внутреннее представление полностью переведено на UTF-8.</p>
+        <p class="next">Большая победа для большинства строк.</p>
+        <p class="next">Ничего не сломалось!</p>
     </section>
 
     <section class="slide">
-        <h2>Code samples</h2>
-        <pre>
-            <code>&lt;!DOCTYPE html&gt;</code>
-            <code class="mark">&lt;html lang="en"&gt;</code>
-            <code><mark>&lt;head&gt;</mark> <span class="comment">&lt;!--Comment--&gt;</span></code>
-            <code>    &lt;title&gt;Shower&lt;/title&gt;</code>
-            <code>    &lt;meta charset="<mark class="important">UTF-8</mark>"&gt;</code>
-            <code>    &lt;link rel="stylesheet" href="screen.css"&gt;</code>
-            <code><mark>&lt;/head&gt;</mark></code>
-        </pre>
-    </section>
-
-    <section class="slide">
-        <h2>Even tables</h2>
-        <table>
-        <tr>
-            <th scope="col">Locavore</th>
-            <th>Umami</th>
-            <th>Helvetica</th>
-            <th>Vegan</th>
-        </tr>
-        <tr>
-            <th scope="row">Fingerstache</th>
-            <td>Kale</td>
-            <td>Chips</td>
-            <td>Keytar</td>
-        </tr>
-        <tr>
-            <th scope="row">Sriracha</th>
-            <td>Gluten-free</td>
-            <td>Ennui</td>
-            <td>Keffiyeh</td>
-        </tr>
-        <tr>
-            <th scope="row">Thundercats</th>
-            <td>Jean</td>
-            <td>Shorts</td>
-            <td>Biodiesel</td>
-        </tr>
-        <tr>
-            <th scope="row">Terry</th>
-            <td>Richardson</td>
-            <td>Swag</td>
-            <td>Blog</td>
-        </tr>
-        </table>
-        <p>It’s good to have information organized.</p>
-    </section>
-
-    <section class="slide" id="picture">
-        <h2>Pictures</h2>
-        <figure>
-            <img class="cover" src="pictures/picture.jpg" alt="Orange typewriter on a wooden table close-up">
-            <figcaption class="copyright right white">
-                <a href="http://fiftyfootshadows.net/">© John Carey</a>
-            </figcaption>
-        </figure>
-        <style>
-            #picture h2 {
-                color: white;
-            }
-        </style>
-    </section>
-
-    <section class="slide">
-        <h2 class="shout shrink">You can even shout this way</h2>
-    </section>
-
-    <section class="slide">
-        <h2>Inner navigation</h2>
-        <ol>
-            <li>Lets you reveal list items one by one</li>
-            <li class="next">To keep some key points</li>
-            <li class="next">In secret from audience</li>
-            <li class="next">But it will work only once</li>
-            <li class="next">Nobody wants to see the same joke twice</li>
-        </ol>
-    </section>
-
-    <section class="slide" id="see-more">
-        <h2 class="shout">
-            <img src="pictures/logo.svg" alt="Shower logo">
-            <a href="https://github.com/shower/shower">See more on GitHub</a>
-        </h2>
-        <style>
-            #see-more h2 {
-                font-size: 100px
-            }
-
-            #see-more img {
-                width: 0.72em;
-                height: 0.72em;
-            }
-        </style>
+        <h2>Тезисы</h2>
+        <ul>
+            <li>Юникод — не кодировка, а таблица символов</li>
+            <li>Думайте, с каким типом работают используемые API</li>
+            <li>Для перехода на Python 3 делайте универсальный код</li>
+        </ul>
     </section>
 
     <div class="progress"></div>
